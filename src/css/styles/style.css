@@ -13203,6 +13203,31 @@ a.read_more i {
   border: solid 1px rgba(255, 255, 255, 0.1);
 }
 
+.slick-prev:before,
+.slick-next:before {
+  content: "" !important;
+}
+
+.slick-slide > div {
+  margin: 0 10px;
+}
+
+
+.slick-list {
+  margin: 0 -10px;
+ 
+}
+
+.nft_wrap img {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  object-fit: cover;
+}
+
+
+
+
 .nft_wrap {
   position: relative;
   width: 100%;
@@ -15145,7 +15170,7 @@ a.btn-slider:hover {
   margin: 0 6px;
   display: inline-block;
   zoom: 1;
-  *display: inline;
+  display: inline;
 }
 
 .testi-slider .flex-control-paging li a {
