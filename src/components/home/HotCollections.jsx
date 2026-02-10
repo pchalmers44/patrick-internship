@@ -1,33 +1,113 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useKeenSlider } from "keen-slider/react";
+import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
-import "owl.carousel";
 
+const MemoOwlCarousel = React.memo(OwlCarousel);
+
+const SkeletonSlide = () => (
+  <div className="item">
+    <div
+      style={{
+        width: "100%",
+        textAlign: "center",
+        paddingBottom: "60px", 
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          paddingTop: "100%",
+          position: "relative",
+          borderRadius: "10px",
+          backgroundColor: "#eee",
+          overflow: "visible",
+        }}
+      ></div>
+      <div
+        style={{
+          marginTop: "30px",
+          height: "20px",
+          background: "#ddd",
+          width: "60%",
+          margin: "10px auto",
+        }}
+      ></div>
+      <div
+        style={{
+          height: "15px",
+          background: "#ddd",
+          width: "40%",
+          margin: "5px auto",
+        }}
+      ></div>
+    </div>
+  </div>
+);
 
 const HotCollections = () => {
   const [collections, setCollections] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
-      .get("https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections")
+      .get(
+        "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
+      )
       .then((res) => {
         setCollections(res.data);
+        setLoading(false);
       })
       .catch((err) => console.error(err));
   }, []);
 
-  const [sliderRef, slider] = useKeenSlider({
+  const carouselOptions = {
     loop: true,
-    slides: { perView: 4, spacing: 15 },
-    breakpoints: {
-      "(max-width: 1200px)": { slides: { perView: 3, spacing: 10 } },
-      "(max-width: 768px)": { slides: { perView: 2, spacing: 10 } },
-      "(max-width: 480px)": { slides: { perView: 1, spacing: 10 } },
+    margin: 15,
+    nav: true,
+    dots: false,
+    navText: [
+      "<i class='fa fa-angle-left'></i>",
+      "<i class='fa fa-angle-right'></i>",
+    ],
+    responsive: {
+      0: { items: 1 },
+      480: { items: 1 },
+      768: { items: 2 },
+      1200: { items: 3 },
+      1400: { items: 4 },
     },
-  });
+  };
+
+  useEffect(() => {
+    const adjustArrows = () => {
+      const prev = document.querySelector(".owl-prev");
+      const next = document.querySelector(".owl-next");
+
+      if (prev && next) {
+        prev.style.position = "absolute";
+        prev.style.left = "-35px"; 
+        prev.style.top = "50%";
+        prev.style.transform = "translateY(-50%)";
+        prev.style.background = "rgba(0,0,0,0.5)";
+        prev.style.borderRadius = "50%";
+        prev.style.padding = "10px";
+
+        next.style.position = "absolute";
+        next.style.right = "-35px"; 
+        next.style.top = "50%";
+        next.style.transform = "translateY(-50%)";
+        next.style.background = "rgba(0,0,0,0.5)";
+        next.style.borderRadius = "50%";
+        next.style.padding = "10px";
+      }
+    };
+
+    const timeout = setTimeout(adjustArrows, 50);
+    return () => clearTimeout(timeout);
+  }, [collections]);
 
   return (
     <section id="section-collections" className="no-bottom">
@@ -38,80 +118,108 @@ const HotCollections = () => {
             <div className="small-border bg-color-2"></div>
           </div>
         </div>
-        
 
-        
-        <div className="slider-wrapper">
-          {collections.length === 0  ? (
-            <div className="keen-slider">
-              {[...Array(4)].map((_, index) => (
-                <div className="keen-slider__slide" key={index}>
-                  <div className="skeleton-slide">
-                    <div className="skeleton-avatar"></div>
-                    <div className="skeleton-title"></div>
-                    <div className="skeleton-code"></div>
-                    </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <>
-          <div ref={sliderRef} className="keen-slider">
+        {loading ? (
+          <div style={{ display: "flex", gap: "10px" }}>
+            {[...Array(4)].map((_, index) => (
+              <SkeletonSlide key={index} />
+            ))}
+          </div>
+        ) : (
+          <MemoOwlCarousel className="owl-theme" {...carouselOptions}>
             {collections.map((item) => (
-              <div className="keen-slider__slide" key={item.id}>
-                <div className="nft_coll">
-                  <div className="nft_wrap">
+              <div className="item" key={item.id}>
+                <div
+                  className="nft_coll"
+                  style={{
+                    width: "100%",
+                    textAlign: "center",
+                    paddingBottom: "30px", 
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "relative",
+                      width: "100%",
+                      overflow: "visible",
+                      borderRadius: "10px",
+                    }}
+                  >
                     <Link to={`/item-details/${item.nftId}`}>
                       <img
                         src={item.nftImage}
-                        className="nft-image"
                         alt={item.title}
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                          display: "block",
+                          borderRadius: "10px",
+                        }}
                       />
                     </Link>
-
-                    <div className="avatar-overlay">
-                      <Link to="/author">
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: "-20px", 
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        zIndex: 2,
+                      }}
+                    >
+                      <Link
+                        to="/author"
+                        style={{
+                          position: "relative",
+                          display: "inline-block",
+                        }}
+                      >
                         <img
-                          className="author-image"
                           src={item.authorImage}
                           alt={item.title}
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "50%",
+                            border: "3px solid #fff",
+                            objectFit: "cover",
+                          }}
                         />
+                        <i
+                          className="fa fa-check"
+                          style={{
+                            position: "absolute",
+                            bottom: "0",
+                            right: "0",
+                            color: "#fff",
+                            background: "#8364e2",
+                            borderRadius: "50%",
+                            fontSize: "12px",
+                            padding: "2px",
+                            transform: "translate(25%, 25%)",
+                          }}
+                        ></i>
                       </Link>
-                      <i className="fa fa-check custom-check"></i>
                     </div>
                   </div>
-
-                  <div className="nft_coll_info">
+                  <div
+                    className="nft_coll_info"
+                    style={{ marginTop: "30px", textAlign: "center" }}
+                  >
                     <Link to="/explore">
                       <h4>{item.title}</h4>
                     </Link>
-                    <span>ERC-{item.code}</span>
+                    <span style={{ color: "#777" }}>ERC-{item.code}</span>
                   </div>
                 </div>
               </div>
             ))}
-          </div>
-
-          
-          <button
-            onClick={() => slider.current?.prev()}
-            className="arrow prev-arrow"
-          >
-            &#10094;
-          </button>
-
-          <button
-            onClick={() => slider.current?.next()}
-            className="arrow next-arrow"
-          >
-            &#10095;
-          </button>
-          </>
-          )}  
-        </div>
+          </MemoOwlCarousel>
+        )}
       </div>
     </section>
   );
 };
 
 export default HotCollections;
+
+           
