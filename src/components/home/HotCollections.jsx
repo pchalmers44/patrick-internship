@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useKeenSlider } from "keen-slider/react";
-import "keen-slider/keen-slider.min.css";
-import "../../css/styles/HotCollections.css";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
+import "owl.carousel";
+
 
 const HotCollections = () => {
   const [collections, setCollections] = useState([]);
