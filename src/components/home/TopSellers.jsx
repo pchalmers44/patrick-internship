@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const TopSellers = () => {
-  const [sellers, setSellers] = useState([]);
+  const [author, setAuthor] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -11,10 +11,10 @@ const TopSellers = () => {
     const apiUrl =
       "https://us-central1-nft-cloud-functions.cloudfunctions.net/topSellers";
 
-    const fetchSellers = async () => {
+    const fetchAuthors = async () => {
       try {
         const response = await axios.get(apiUrl);
-        setSellers(response.data);
+        setAuthor(response.data);
       } catch (err) {
         console.error("Error fetching top sellers:", err);
         setError("Could not load top sellers");
@@ -23,7 +23,7 @@ const TopSellers = () => {
       }
     };
 
-    fetchSellers();
+    fetchAuthors();
   }, []);
 
   if (error) return <p>{error}</p>;
@@ -79,23 +79,23 @@ const TopSellers = () => {
                       </div>
                     </li>
                   ))
-                : sellers.map((seller) => (
-                    <li key={seller.id}>
+                : author.map((author) => (
+                    <li key={author.id}>
                       <div className="author_list_pp">
-                        <Link to={`/author/${seller.id}`}>
+                        <Link to={`/author/${author.authorId}`}>
                           <img
                             className="lazy pp-author"
-                            src={seller.authorImage}
-                            alt={seller.authorName}
+                            src={author.authorImage}
+                            alt={author.authorName}
                           />
                           <i className="fa fa-check"></i>
                         </Link>
                       </div>
                       <div className="author_list_info">
-                        <Link to={`/author/${seller.id}`}>
-                          {seller.authorName}
+                        <Link to={`/author/${author.id}`}>
+                          {author.authorName}
                         </Link>
-                        <span>{seller.price} ETH</span>
+                        <span>{author.price} ETH</span>
                       </div>
                     </li>
                   ))}
