@@ -166,7 +166,7 @@ const HotCollections = () => {
                       }}
                     >
                       <Link
-                        to="/author"
+                        to={`/author/${item.authorId}`}
                         style={{
                           position: "relative",
                           display: "inline-block",
