@@ -130,7 +130,7 @@ const ItemDetails = () => {
               </div>
               <div className="col-md-6">
                 <div className="item_info">
-                  <h2>{nft.title}</h2>
+                  <h2>{nft.title} #{nft.tag}</h2>
                   <div className="item_info_counts">
                     <div className="item_info_views">
                       <i className="fa fa-eye"></i>

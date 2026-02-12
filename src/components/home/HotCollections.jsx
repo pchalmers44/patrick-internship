@@ -4,6 +4,10 @@ import axios from "axios";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
+import AOS from 'aos';
+import 'aos/dist/aos.css'
+
+AOS.init();
 
 const MemoOwlCarousel = React.memo(OwlCarousel);
 
@@ -112,7 +116,7 @@ const HotCollections = () => {
     <section id="section-collections" className="no-bottom">
       <div className="container">
         <div className="col-lg-12">
-          <div className="text-center">
+          <div  data-aos="fade-up" data-aos-delay="200" className="text-center">
             <h2>Hot Collections</h2>
             <div className="small-border bg-color-2"></div>
           </div>
@@ -127,7 +131,7 @@ const HotCollections = () => {
         ) : (
           <MemoOwlCarousel className="owl-theme" {...carouselOptions}>
             {collections.map((item) => (
-              <div className="item" key={item.id}>
+              <div data-aos="fade-up" data-aos-delay="200" className="item" key={item.id}>
                 <div
                   className="nft_coll"
                   style={{
