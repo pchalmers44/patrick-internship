@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import OwlCarousel from "react-owl-carousel";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
+AOS.init();
 
 const MemoOwlCarousel = React.memo(OwlCarousel);
 
@@ -91,7 +95,7 @@ const NewItems = () => {
     <section id="section-items" className="no-bottom">
       <div className="container">
         <div className="col-lg-12">
-          <div className="text-center">
+          <div data-aos="fade-up" data-aos-delay="200" className="text-center">
             <h2>New Items</h2>
             <div className="small-border bg-color-2"></div>
           </div>
@@ -149,7 +153,7 @@ const NewItems = () => {
           >
             {items.map((item) => (
               <div className="item" key={item.nftId}>
-                <div className="nft__item">
+                <div data-aos="fade-up" data-aos-delay="200"className="nft__item">
                   <div className="author_list_pp">
                     <Link
                       to={`/author/${item.authorId}`}
