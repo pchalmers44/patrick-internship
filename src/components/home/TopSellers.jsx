@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import AOS from 'aos';
+import 'aos/dist/aos.css'
+
+AOS.init();
 
 const TopSellers = () => {
   const [author, setAuthor] = useState([]);
@@ -54,7 +58,7 @@ const TopSellers = () => {
     <section id="section-popular" className="pb-5">
       <div className="container">
         <div className="row">
-          <div className="col-lg-12 text-center">
+          <div data-aos="fade-up" data-aos-delay="200" className="col-lg-12 text-center">
             <h2>Top Sellers</h2>
             <div className="small-border bg-color-2"></div>
           </div>
@@ -80,7 +84,7 @@ const TopSellers = () => {
                     </li>
                   ))
                 : author.map((author) => (
-                    <li key={author.id}>
+                    <li data-aos="fade-up" data-aos-delay="200" key={author.id}>
                       <div className="author_list_pp">
                         <Link to={`/author/${author.authorId}`}>
                           <img
