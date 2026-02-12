@@ -137,19 +137,7 @@ const NewItems = () => {
         {!loading && (
           <MemoOwlCarousel
             className="owl-theme"
-            loop
-            margin={10}
-            dots={false}
-            nav
-            navText={[
-              "<i class='fa fa-angle-left'></i>",
-              "<i class='fa fa-angle-right'></i>",
-            ]}
-            responsive={{
-              0: { items: 1 },
-              600: { items: 2 },
-              1000: { items: 4 },
-            }}
+            {...carouselOptions}
           >
             {items.map((item) => (
               <div data-aos="fade-up" data-aos-delay="200" className="item" key={item.nftId}>
@@ -172,13 +160,13 @@ const NewItems = () => {
                         <button>Buy Now</button>
                         <div className="nft__item_share">
                           <h4>Share</h4>
-                          <a href="" target="_blank" rel="noreferrer">
+                          <a href="#" target="_blank" rel="noreferrer">
                             <i className="fa fa-facebook fa-lg"></i>
                           </a>
-                          <a href="" target="_blank" rel="noreferrer">
+                          <a href="#" target="_blank" rel="noreferrer">
                             <i className="fa fa-twitter fa-lg"></i>
                           </a>
-                          <a href="">
+                          <a href="#">
                             <i className="fa fa-envelope fa-lg"></i>
                           </a>
                         </div>
@@ -195,7 +183,7 @@ const NewItems = () => {
                   </div>
 
                   <div className="nft__item_info">
-                    <Link to="/item-details">
+                    <Link to={`/item-details/${item.nftId}`}>
                       <h4>{item.title}</h4>
                     </Link>
                     <div className="nft__item_price">{item.price}</div>
